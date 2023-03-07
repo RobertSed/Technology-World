@@ -1,32 +1,20 @@
 pub mod models;
 pub mod schema;
 
-use diesel::result::Error;
-use diesel::{self, RunQueryDsl, QueryDsl, ExpressionMethods};
-use diesel::r2d2::{ConnectionManager, Pool};
+use diesel::{r2d2::{self, ConnectionManager}, MysqlConnection};
 
-use schema::users::dsl::*;
+pub type MySQLPool = r2d2::Pool<ConnectionManager<diesel::MysqlConnection>>;
 
-pub type MySQLPool = Pool<ConnectionManager<diesel::mysql::MysqlConnection>>;
+/** This function generates a pool of connection to the database.
+ 
+    returns the pool of connection or an error is failed to connect to the database.
 
+*/
 pub fn get_connection_pool() -> MySQLPool {
-    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set.");
+    let database_connection_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set.");
 
-    let manager = ConnectionManager::<diesel::mysql::MysqlConnection>::new(database_url);
-    Pool::builder()
-                .test_on_check_out(true)
-                .build(manager)
-                .expect("Connection pool failed to build.")
-}
-
-pub fn get_all_users(pool: MySQLPool) -> Result<Vec<models::User>, Error> {
-    let connection = &mut pool.get().expect("connection failed!");
-
-    users.load::<models::User>(connection)
-}
-
-pub fn get_user(pool: MySQLPool, user_email: &'static str) -> Result<models::User, Error>{
-    let connection = &mut pool.get().expect("connection failed!");
-
-    users.filter(userEmail.eq(user_email.to_lowercase())).first::<models::User>(connection)
+    let manager: ConnectionManager<MysqlConnection> = ConnectionManager::<diesel::MysqlConnection>::new(database_connection_url);
+    r2d2::Pool::builder()
+                        .build(manager)
+                        .expect("Failed to connect to the database")
 }

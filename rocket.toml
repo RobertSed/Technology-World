@@ -1,0 +1,2 @@
+[default.databases.my_db]
+url = "mysql://root:epicpassword@localhost:3306/techworld"

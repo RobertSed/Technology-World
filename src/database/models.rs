@@ -16,6 +16,7 @@ pub struct Course {
     pub course_duration: i32,
     pub course_image: String,
     pub course_leader_channel: String,
+    pub course_access_level: i32,
 }
 
 #[derive(Queryable, Debug, Identifiable, Serialize, Deserialize)]

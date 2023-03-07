@@ -8,6 +8,7 @@ diesel::table! {
         courseDuration -> Integer,
         courseImage -> Varchar,
         courseLeaderChannel -> Varchar,
+        courseAccessLevel -> Integer,
     }
 }
 
