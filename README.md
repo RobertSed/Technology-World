@@ -1,4 +1,4 @@
-# 💻 Technonogly-World 💻
+# 💻 Technology World 💻
 
 Technology World is an online Virtual Learning Enviroment (VLE). The VLE provides users with content in the form of videos on topics based on computing.
 
