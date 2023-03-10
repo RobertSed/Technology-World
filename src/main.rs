@@ -31,7 +31,7 @@ async fn main() -> std::io::Result<()> {
                     .route("/videos/{course_id}", web::get().to(services::videos::get_videos_from_id))
             )
     })
-    .bind(ip_port)
+    .bind(format!("0.0.0.0:{}", env::var("PORT").unwrap()))
     .unwrap()
     .run()
     .await
